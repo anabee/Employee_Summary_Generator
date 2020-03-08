@@ -10,7 +10,64 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 ​
 const render = require("./lib/htmlRenderer");
 ​
-​
+​const inquirer = require("inquirer");
+const fs = require("fs");
+
+function promptUser(){   
+    return inquirer.prompt([
+        {
+            type: "input",
+            message: "What is your name?",
+            name:"employee_name"
+        },
+        {
+            type: "input",
+            message: "What is your employee ID?",
+            name:"employee_Id"
+        },
+        {
+            type: "input",
+            message: "What is your email?",
+            name:"employee_email"
+        },
+        {
+            type: "list",
+            message: "What is your current position?",
+            name:"employee_position",
+            choices: ["Manager", "Engineer", "Intern"],
+        },
+    ])
+    .then (answers => {
+        if (answers.employee_position === "Manager"){
+            return inquirer.prompt([
+                {
+                    type: "input",
+                    message: "What is your office number?",
+                    name:"manager_officeNumber"
+                }
+            ]) 
+        } else if (answers.employee_position === "Engineer"){
+            return inquirer.prompt([
+                {
+                    type: "input",
+                    message: "What is your GitHub username?",
+                    name:"engineer_githubUN"
+                }
+            ]) 
+        } else if (answers.employee_position === "Intern"){
+            return inquirer.prompt([
+                {
+                    type: "input",
+                    message: "What school do you attend?",
+                    name:"intern_school"
+                }
+            ]) 
+        }
+    })
+}
+
+promptUser();
+
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 ​
