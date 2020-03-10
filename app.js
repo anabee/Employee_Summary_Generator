@@ -1,4 +1,4 @@
-const Manager = require("./lib/Manager.js");
+const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
@@ -56,14 +56,15 @@ function promptUser(){
     ])
     .then (answers=>{
         if (answers.employee_position === "Manager"){
-            var newManager = new Manager(answers.name, answers.employee_Id, answers.employee_position, answers.manager_officeNumber);
+            // ***************getting an error saying that Manager is not a constructor
+            var newManager = new Manager(answers.name, answers.employee_Id, answers.employee_email, answers.manager_officeNumber);
             console.log(newManager)
 
         } else if (answers.employee_position === "Engineer"){
-            var newEngineer = new Engineer(answers.name, answers.employee_Id, answers.employee_position, answers.engineer_githubUN);
+            var newEngineer = new Engineer(answers.name, answers.employee_Id, answers.employee_email, answers.engineer_githubUN);
             
         } else if (answers.employee_position === "Intern"){
-            var newIntern = new Intern(answers.name, answers.employee_Id, answers.employee_position, answers.intern_school);
+            var newIntern = new Intern(answers.name, answers.employee_Id, answers.employee_email, answers.intern_school);
         }
     })
 }
