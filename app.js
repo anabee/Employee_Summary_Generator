@@ -1,6 +1,6 @@
-// const Manager = require("./lib/Manager");
-// const Engineer = require("./lib/Engineer");
-// const Intern = require("./lib/Intern");
+const Manager = require("./lib/Manager.js");
+const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 // const path = require("path");
 // const fs = require("fs");
@@ -13,7 +13,6 @@ const inquirer = require("inquirer");
 // const fs = require("fs");
 
 function promptUser(){    
-    let result = {}
     return inquirer.prompt([
         {
             type: "input",
@@ -55,11 +54,24 @@ function promptUser(){
             when: (answers)=> answers.employee_position === "Intern",
         }
     ])
+    .then (answers=>{
+        if (answers.employee_position === "Manager"){
+            var newManager = new Manager(answers.name, answers.employee_Id, answers.employee_position, answers.manager_officeNumber);
+            console.log(newManager)
+
+        } else if (answers.employee_position === "Engineer"){
+            var newEngineer = new Engineer(answers.name, answers.employee_Id, answers.employee_position, answers.engineer_githubUN);
+            
+        } else if (answers.employee_position === "Intern"){
+            var newIntern = new Intern(answers.name, answers.employee_Id, answers.employee_position, answers.intern_school);
+        }
+    })
 }
 
 promptUser();
 
 // module.exports = app;
+
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
