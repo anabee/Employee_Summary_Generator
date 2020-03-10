@@ -13,6 +13,7 @@ const inquirer = require("inquirer");
 // const fs = require("fs");
 
 function promptUser(){    
+    let result = {}
     return inquirer.prompt([
         {
             type: "input",
@@ -35,49 +36,30 @@ function promptUser(){
             name:"employee_position",
             choices: ["Manager", "Engineer", "Intern"],
         },
-    ])
-    .then (answers => {
-        if (answers.employee_position === "Manager"){
-            function newManager (answers){
-                return inquirer.prompt([
-                    {
-                        type: "input",
-                        message: "What is your office number?",
-                        name:"manager_officeNumber"
-                    }
-                ]) 
-            }
-            // newManager(answers);
-        } else if (answers.employee_position === "Engineer"){
-            function newEngineer (answers){
-                return inquirer.prompt([
-                    {
-                        type: "input",
-                        message: "What is your GitHub username?",
-                        name:"engineer_githubUN"
-                    }
-                ]) 
-            }
-            // newEngineer();
-        } else if (answers.employee_position === "Intern"){
-            function newIntern (answers){
-                return inquirer.prompt([
-                    {
-                        type: "input",
-                        message: "What school do you attend?",
-                        name:"intern_school"
-                    }
-                ]) 
-            }
-            // newIntern();
+        {
+            type: "input",
+            message: "What is your office number?",
+            name:"manager_officeNumber",
+            when: (answers)=> answers.employee_position === "Manager",
+        },
+        {
+            type: "input",
+            message: "What is your GitHub username?",
+            name:"engineer_githubUN",
+            when: (answers)=> answers.employee_position === "Engineer",
+        },
+        {
+            type: "input",
+            message: "What school do you attend?",
+            name:"intern_school",
+            when: (answers)=> answers.employee_position === "Intern",
         }
-    })
-    // .then (returnEmp => {
-    //     return 
-    // })
+    ])
 }
 
 promptUser();
+
+// module.exports = app;
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
