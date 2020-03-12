@@ -5,12 +5,14 @@ const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 
-// const OUTPUT_DIR = path.resolve(__dirname, "output")
-// const outputPath = path.join(OUTPUT_DIR, "team.html");
-// ​
+const util = require("util");
+const writeFileAsync = util.promisify(fs.writeFile);
+
+const OUTPUT_DIR = path.resolve(__dirname, "output")
+const outputPath = path.join(OUTPUT_DIR, "team.html");
+
 const render = require("./lib/htmlRenderer");
 
-// const fs = require("fs");
 
 function promptUser(){    
     return inquirer.prompt([
@@ -57,20 +59,21 @@ function promptUser(){
     .then (answers=>{
         let employees = []
         if (answers.employee_position === "Manager"){
-            var newManager = new Manager(answers.employee_name, answers.employee_Id, answers.employee_email,answers.employee_position, answers.manager_officeNumber);
+            var newManager = new Manager(answers.employee_name, answers.employee_Id, answers.employee_email, answers.manager_officeNumber);
             employees.push(newManager);
         } else if (answers.employee_position === "Engineer"){
-            var newEngineer = new Engineer(answers.employee_name, answers.employee_Id, answers.employee_email,answers.employee_position, answers.engineer_githubUN);
-            console.log(newEngineer)
-            
+            var newEngineer = new Engineer(answers.employee_name, answers.employee_Id, answers.employee_email, answers.engineer_githubUN);
+            employees.push(newEngineer);
         } else if (answers.employee_position === "Intern"){
-            var newIntern = new Intern(answers.employee_name, answers.employee_Id, answers.employee_email,answers.employee_position, answers.intern_school);
-            console.log(newIntern)
+            var newIntern = new Intern(answers.employee_name, answers.employee_Id, answers.employee_email, answers.intern_school);
+            employees.push(newIntern);
         }
         return employees
     })
     .then (employees=>{
-        render(employees)
+        const renderedEmpl = render(employees);
+
+        return writeFileAsync(outputPath,renderedEmpl)
     });
 }
 
