@@ -6,7 +6,7 @@ const path = require("path");
 const fs = require("fs");
 
 const util = require("util");
-const writeFileAsync = util.promisify(fs.writeFile);
+const writeFileAsync = util.promisify(fs.appendFileSync);
 
 const OUTPUT_DIR = path.resolve(__dirname, "output")
 const outputPath = path.join(OUTPUT_DIR, "team.html");
@@ -54,8 +54,15 @@ function promptUser(){
             message: "What school do you attend?",
             name:"intern_school",
             when: (answers)=> answers.employee_position === "Intern",
-        }
+        },
+        {
+            type:"list",
+            message: "Would you like to add an additional team member?",
+            name: "additional_team",
+            choices:["Yes", "No"],
+        },
     ])
+    // need to make a new string of all f the employees 
     .then (answers=>{
         let employees = []
         if (answers.employee_position === "Manager"){
