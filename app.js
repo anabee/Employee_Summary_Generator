@@ -13,7 +13,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-
+let team = [];
 function promptUser(){    
     return inquirer.prompt([
         {
@@ -62,31 +62,58 @@ function promptUser(){
             choices:["Yes", "No"],
         },
     ])
-    // need to make a new string of all f the employees 
     .then (answers=>{
-        let employees = []
-        if (answers.employee_position === "Manager"){
-            var newManager = new Manager(answers.employee_name, answers.employee_Id, answers.employee_email, answers.manager_officeNumber);
-            employees.push(newManager);
-        } else if (answers.employee_position === "Engineer"){
-            var newEngineer = new Engineer(answers.employee_name, answers.employee_Id, answers.employee_email, answers.engineer_githubUN);
-            employees.push(newEngineer);
-        } else if (answers.employee_position === "Intern"){
-            var newIntern = new Intern(answers.employee_name, answers.employee_Id, answers.employee_email, answers.intern_school);
-            employees.push(newIntern);
+        team.push(answers);
+        if (answers.additional_team === "Yes"){
+            promptUser();
+        } else if (answers.additional_team === "No"){
+            for (let i = 0; i < team.length; i++) {
+                if (team[i].employee_position === "Manager"){
+                    var newManager = new Manager(team[i].employee_name, team[i].employee_Id, team[i].employee_email, team[i].manager_officeNumber);
+                    team.push(newManager);
+                } else if (team[i].employee_position === "Engineer"){
+                    var newEngineer = new Engineer(team[i].employee_name, team[i].employee_Id, team[i].employee_email, team[i].engineer_githubUN);
+                    team.push(newEngineer);
+                } else if (team[i].employee_position === "Intern"){
+                    var newIntern = new Intern(team[i].employee_name, team[i].employee_Id, team[i].employee_email, team[i].intern_school);
+                    team.push(newIntern);
+                }
+            }
+            console.log(team)
+            let teamHTML = render(team.splice(3));
+            fs.writeFileSync(outputPath,teamHTML)
         }
-        return employees
-    })
-    .then (employees=>{
-        const renderedEmpl = render(employees);
 
-        return writeFileAsync(outputPath,renderedEmpl)
-    });
+    })
+    // IF THIS IS UNCOMMENTED THEN I CAN ADD ONE EMPLOYEE 
+    // .then (answers=>{
+    //     let employees = []
+    //     if (answers.employee_position === "Manager"){
+    //         var newManager = new Manager(answers.employee_name, answers.employee_Id, answers.employee_email, answers.manager_officeNumber);
+    //         employees.push(newManager);
+    //     } else if (answers.employee_position === "Engineer"){
+    //         var newEngineer = new Engineer(answers.employee_name, answers.employee_Id, answers.employee_email, answers.engineer_githubUN);
+    //         employees.push(newEngineer);
+    //     } else if (answers.employee_position === "Intern"){
+    //         var newIntern = new Intern(answers.employee_name, answers.employee_Id, answers.employee_email, answers.intern_school);
+    //         employees.push(newIntern);
+    //     }
+    //     return employees
+    // })
+    // .then (employees=>{
+    //     const renderedEmpl = render(employees);
+
+    //     return writeFileAsync(outputPath,renderedEmpl)
+    // });
 }
 
 promptUser();
 
+function employees(){
+    const renderedEmpl = render(employees);
 
+    return writeFileAsync(outputPath,renderedEmpl)
+};
 
 
 // Write code to use inquirer to gather information about the development team members,
