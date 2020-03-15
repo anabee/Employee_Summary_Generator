@@ -36,3 +36,6 @@ To run tests, run thew following command:
 
 https://github.com/anabee/Employee_Summary_Generator
 
+<img width="657" alt="Screen Shot 2020-03-14 at 10 36 33 PM" src="https://user-images.githubusercontent.com/42880531/76696040-42a2db80-6644-11ea-9fe8-42b60550c89c.png">
+
+<img width="953" alt="Screen Shot 2020-03-14 at 10 37 13 PM" src="https://user-images.githubusercontent.com/42880531/76696050-5c442300-6644-11ea-8766-b5cb21459edf.png">
