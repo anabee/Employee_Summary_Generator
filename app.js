@@ -14,6 +14,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 
 let team = [];
+let team2=[];
 function promptUser(){    
     return inquirer.prompt([
         {
@@ -70,17 +71,17 @@ function promptUser(){
             for (let i = 0; i < team.length; i++) {
                 if (team[i].employee_position === "Manager"){
                     var newManager = new Manager(team[i].employee_name, team[i].employee_Id, team[i].employee_email, team[i].manager_officeNumber);
-                    team.push(newManager);
+                    team2.push(newManager);
                 } else if (team[i].employee_position === "Engineer"){
                     var newEngineer = new Engineer(team[i].employee_name, team[i].employee_Id, team[i].employee_email, team[i].engineer_githubUN);
-                    team.push(newEngineer);
+                    team2.push(newEngineer);
                 } else if (team[i].employee_position === "Intern"){
                     var newIntern = new Intern(team[i].employee_name, team[i].employee_Id, team[i].employee_email, team[i].intern_school);
-                    team.push(newIntern);
+                    team2.push(newIntern);
                 }
             }
-            console.log(team)
-            let teamHTML = render(team.splice(3));
+            console.log(team2)
+            let teamHTML = render(team2);
             fs.writeFileSync(outputPath,teamHTML)
         }
 
